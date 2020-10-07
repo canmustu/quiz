@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { Exam } from '../../../models/exam';
 import ExamApiService from '../../../services/exam-api.service';
+import { Card } from 'antd';
+import './exam-list.css';
+
+const { Meta } = Card;
 
 class ExamList extends Component {
   state: {
@@ -13,27 +17,26 @@ class ExamList extends Component {
 
   async componentDidMount() {
     this.setState({ loading: true });
-    const exams: any = await ExamApiService.getExams();
-    this.setState({ loading: false, exams: exams.data });
+    const exams = await ExamApiService.getExams();
+    this.setState({ loading: false, exams: exams });
   }
 
   renderExams() {
     const { exams } = this.state;
     if (exams?.length) {
-      return exams.map(exam => {
-        return (
-          <div key={exam.id}>
-            <div>
-              <strong>
-                {exam.title}
-              </strong>
+      return (
+        exams.map(exam => {
+          return (
+            <div className="exam-item">
+              <Card hoverable>
+                <Meta
+                  title={exam.title}
+                  description={exam.description} />
+              </Card>
             </div>
-            <p>
-              {exam.description}
-            </p>
-          </div>
-        );
-      });
+          );
+        })
+      );
     } else {
       return <span></span>;
     }
@@ -42,6 +45,7 @@ class ExamList extends Component {
   render() {
     return (
       <div>
+        <h2>Exams</h2>
         {this.renderExams()}
       </div>
     );

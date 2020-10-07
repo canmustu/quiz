@@ -5,7 +5,7 @@ import { Exam } from '../models/exam';
 class ExamApiService {
 
   async getExams(): Promise<Exam[]> {
-    return axios.get(`${API_URL}/exams`);
+    return (await axios.get(`${API_URL}/exams`))?.data;
   }
 
 }
