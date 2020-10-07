@@ -1,14 +1,11 @@
 import axios from 'axios';
+import Question from '../components/question/question';
 import { API_URL } from '../definitions/api-paths';
 
-export class QuestionApiService {
-
-  constructor() {
-
+class QuestionApiService {
+  async getQuestionsByExamId(examId: string): Promise<Question[]> {
+    return axios.get(`${API_URL}/questions`);
   }
-
-  async getQuestionsByExamId(examId: string) {
-    return axios.get(`${API_URL}/questions`, { params: { examId: examId } });
-  }
-
 }
+
+export default new QuestionApiService();
